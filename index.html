@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>お酒記録 - Sake Log</title>
+    <style>
+        :root {
+            --primary: #FF9800;
+            --primary-dark: #F57C00;
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #777777;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px 15px;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        header h1 {
+            font-size: 24px;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px; /* ズーム防止 */
+            background-color: #fafafa;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #fff;
+        }
+
+        /* 5段階評価 */
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            font-size: 36px;
+            color: #e0e0e0;
+            cursor: pointer;
+            margin-bottom: 0;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .rating input:checked ~ label,
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: var(--primary);
+        }
+
+        /* 写真アップロード */
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+            background-color: #fafafa;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .file-upload-btn:hover {
+            background-color: #f0f0f0;
+            border-color: #ccc;
+        }
+
+        .file-upload-btn span.icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 250px;
+            margin-top: 12px;
+            border-radius: 8px;
+            display: none;
+            object-fit: contain;
+            background-color: #000;
+        }
+
+        .clear-photo-btn {
+            display: none;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* 送信ボタン */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(255, 152, 0, 0.2);
+            transition: transform 0.1s, background-color 0.2s;
+            margin-top: 8px;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* リスト表示 */
+        .list-header {
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            color: var(--text-main);
+            padding: 0 4px;
+        }
+        
+        .record-count {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .record-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .record-item {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            gap: 16px;
+            position: relative;
+        }
+
+        .record-thumb-container {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .record-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .record-detail {
+            flex-grow: 1;
+            min-width: 0;
+            padding-right: 24px;
+        }
+
+        .record-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-main);
+        }
+
+        .record-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .tag {
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .star-display {
+            color: var(--primary);
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .record-memo {
+            font-size: 13px;
+            color: var(--text-main);
+            white-space: pre-wrap;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            background: #fafafa;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ef5350;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px;
+            line-height: 1;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .delete-btn:hover {
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 2px dashed var(--border-color);
+        }
+        
+        .empty-state span {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>🍶 お酒記録アプリ</h1>
+    </header>
+
+    <div class="card">
+        <form id="recordForm">
+            <div class="form-group">
+                <label for="name">お酒の名前 <span style="color:#ef5350">*</span></label>
+                <input type="text" id="name" required placeholder="例：獺祭、山崎、よなよなエールなど">
+            </div>
+
+            <div class="form-group">
+                <label for="type">種類 <span style="color:#ef5350">*</span></label>
+                <select id="type" required>
+                    <option value="" disabled selected>選択してください</option>
+                    <option value="ビール">🍺 ビール</option>
+                    <option value="ワイン">🍷 ワイン</option>
+                    <option value="日本酒">🍶 日本酒</option>
+                    <option value="ウイスキー">🥃 ウイスキー</option>
+                    <option value="チューハイ">🍋 チューハイ・サワー</option>
+                    <option value="焼酎">🍠 焼酎</option>
+                    <option value="その他">🍸 その他</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="date">飲んだ日付 <span style="color:#ef5350">*</span></label>
+                <input type="date" id="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">場所</label>
+                <input type="text" id="location" placeholder="例：自宅、居酒屋〇〇など">
+            </div>
+
+            <div class="form-group">
+                <label>評価</label>
+                <div class="rating">
+                    <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+                    <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" checked><label for="star3">★</label>
+                    <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+                    <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="memo">感想・メモ</label>
+                <textarea id="memo" rows="3" placeholder="香りや味、合わせた料理など"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>写真</label>
+                <div class="file-upload">
+                    <label for="photo" class="file-upload-btn" id="uploadBtn">
+                        <span class="icon">📷</span>
+                        <span>タップして写真を選択</span>
+                    </label>
+                    <input type="file" id="photo" accept="image/*">
+                </div>
+                <img id="photoPreview" class="preview-img">
+                <button type="button" id="clearPhotoBtn" class="clear-photo-btn">写真を削除</button>
+            </div>
+
+            <button type="submit" class="submit-btn">記録を保存する</button>
+        </form>
+    </div>
+
+    <div class="list-header">
+        <h2>記録一覧</h2>
+        <span class="record-count" id="recordCount">0件</span>
+    </div>
+
+    <div class="record-list" id="recordList">
+        <!-- 履歴がここに追加されます -->
+    </div>
+</div>
+
+<script>
+    // 初期設定：今日の日付をセット
+    document.getElementById('date').valueAsDate = new Date();
+
+    let currentPhotoBase64 = '';
+    const photoInput = document.getElementById('photo');
+    const photoPreview = document.getElementById('photoPreview');
+    const clearPhotoBtn = document.getElementById('clearPhotoBtn');
+    const uploadBtn = document.getElementById('uploadBtn');
+
+    // 写真のプレビューとリサイズ処理（localStorageの容量対策）
+    photoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.onload = function() {
+                // 画像をリサイズ
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 600;
+                const MAX_HEIGHT = 600;
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // 軽量化のためにJPEG形式・品質0.7でBase64化
+                currentPhotoBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+                photoPreview.src = currentPhotoBase64;
+                photoPreview.style.display = 'block';
+                clearPhotoBtn.style.display = 'inline-block';
+                uploadBtn.style.display = 'none';
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // 写真クリア処理
+    clearPhotoBtn.addEventListener('click', function() {
+        photoInput.value = '';
+        currentPhotoBase64 = '';
+        photoPreview.style.display = 'none';
+        clearPhotoBtn.style.display = 'none';
+        uploadBtn.style.display = 'flex';
+    });
+
+    // フォーム送信処理
+    document.getElementById('recordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const ratingInput = document.querySelector('input[name="rating"]:checked');
+        
+        const record = {
+            id: Date.now(),
+            name: document.getElementById('name').value,
+            type: document.getElementById('type').value,
+            date: document.getElementById('date').value,
+            location: document.getElementById('location').value,
+            rating: ratingInput ? ratingInput.value : '3',
+            memo: document.getElementById('memo').value,
+            photo: currentPhotoBase64
+        };
+
+        // 既存のデータを取得して新しいデータを先頭に追加
+        let records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
+        records.unshift(record);
+
+        try {
+            localStorage.setItem('sakeRecords', JSON.stringify(records));
+            
+            // フォームリセット
+            this.reset();
+            document.getElementById('date').valueAsDate = new Date();
+            clearPhotoBtn.click(); // 写真プレビューもリセット
+            // 星3つをデフォルトに戻す
+            document.getElementById('star3').checked = true;
+            
+            renderRecords();
+            alert('記録を保存しました！');
+            // スクロールして一覧を見せる
+            window.scrollTo({ top: document.querySelector('.list-header').offsetTop - 20, behavior: 'smooth' });
+        } catch (error) {
+            console.error("Storage error:", error);
+            if (error.name === 'QuotaExceededError') {
+                alert('ブラウザの保存容量の制限に達しました。\n一覧から不要な記録（写真付きのものなど）を削除してください。');
+            } else {
+                alert('保存に失敗しました。');
+            }
+        }
+    });
+
+    // 削除処理
+    function deleteRecord(id) {
+        if (confirm('この記録を削除しますか？\n（復元できません）')) {
+            let records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
+            records = records.filter(record => record.id !== id);
+            localStorage.setItem('sakeRecords', JSON.stringify(records));
+            renderRecords();
+        }
+    }
+
+    // 星表示のヘルパー関数
+    function getStars(count) {
+        return '★'.repeat(count) + '☆'.repeat(5 - count);
+    }
+
+    // 日付フォーマットのヘルパー関数
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+    }
+
+    // 記録の描画処理
+    function renderRecords() {
+        const list = document.getElementById('recordList');
+        const countDisplay = document.getElementById('recordCount');
+        const records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
+        
+        countDisplay.textContent = `${records.length}件`;
+
+        if (records.length === 0) {
+            list.innerHTML = `
+                <div class="empty-state">
+                    <span>🍶</span>
+                    <p>まだ記録がありません。<br>上から最初の一杯を記録しましょう！</p>
+                </div>
+            `;
+            return;
+        }
+
+        list.innerHTML = records.map(record => `
+            <div class="record-item">
+                <div class="record-thumb-container">
+                    ${record.photo 
+                        ? `<img src="${record.photo}" class="record-thumb" alt="画像">` 
+                        : 'No Image'}
+                </div>
+                <div class="record-detail">
+                    <h3 class="record-title">${record.name}</h3>
+                    <div class="record-meta">
+                        <span class="tag">${record.type}</span>
+                        <span>${formatDate(record.date)}</span>
+                        ${record.location ? `<span>📍 ${record.location}</span>` : ''}
+                    </div>
+                    <div class="star-display">${getStars(parseInt(record.rating))}</div>
+                    ${record.memo ? `<div class="record-memo">${record.memo}</div>` : ''}
+                </div>
+                <button class="delete-btn" onclick="deleteRecord(${record.id})" title="削除">×</button>
+            </div>
+        `).join('');
+    }
+
+    // 初回読み込み時のUI描画
+    renderRecords();
+</script>
+
+</body>
+</html>
