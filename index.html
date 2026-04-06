@@ -78,7 +78,7 @@
             padding: 12px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 16px; /* ズーム防止 */
+            font-size: 16px;
             background-color: #fafafa;
             transition: border-color 0.2s;
         }
@@ -198,7 +198,7 @@
         .submit-btn:active {
             transform: scale(0.98);
         }
-        
+
         .submit-btn:hover {
             background-color: var(--primary-dark);
         }
@@ -213,41 +213,169 @@
             color: var(--text-main);
             padding: 0 4px;
         }
-        
+
         .record-count {
             font-size: 14px;
             color: var(--text-muted);
             font-weight: normal;
         }
 
+        /* 検索バー */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 12px;
+            gap: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .search-bar .search-icon {
+            font-size: 18px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            background: transparent;
+            color: var(--text-main);
+            min-width: 0;
+        }
+
+        .search-bar input::placeholder {
+            color: #bbb;
+        }
+
+        .search-clear-btn {
+            background: rgba(0,0,0,0.08);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 16px;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* ソートボタン */
+        .sort-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .sort-btn {
+            padding: 7px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--card-bg);
+            font-size: 13px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .sort-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* フィルター */
+        .filter-section {
+            margin-bottom: 12px;
+        }
+
+        .filter-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            background: var(--card-bg);
+            font-size: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .filter-clear-btn {
+            padding: 6px 14px;
+            border: 1px solid #ef5350;
+            border-radius: 16px;
+            background: #fff;
+            font-size: 12px;
+            color: #ef5350;
+            cursor: pointer;
+            display: none;
+            margin-bottom: 8px;
+        }
+
+        /* カードデザイン */
         .record-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
         .record-item {
             background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
             display: flex;
-            gap: 16px;
+            gap: 14px;
             position: relative;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+
+        .record-item:active {
+            transform: scale(0.98);
         }
 
         .record-thumb-container {
             width: 80px;
             height: 80px;
             flex-shrink: 0;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            background-color: #eee;
+            background-color: #f0f0f0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #aaa;
-            font-size: 12px;
         }
 
         .record-thumb {
@@ -256,10 +384,15 @@
             object-fit: cover;
         }
 
+        .record-thumb-emoji {
+            font-size: 40px;
+            line-height: 1;
+        }
+
         .record-detail {
             flex-grow: 1;
             min-width: 0;
-            padding-right: 24px;
+            padding-right: 8px;
         }
 
         .record-title {
@@ -270,63 +403,45 @@
             overflow: hidden;
             text-overflow: ellipsis;
             color: var(--text-main);
+            padding-right: 60px;
         }
 
         .record-meta {
             font-size: 12px;
             color: var(--text-muted);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
             align-items: center;
         }
 
-        .tag {
-            background-color: #f0f0f0;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
         .star-display {
             color: var(--primary);
             font-size: 14px;
             letter-spacing: 2px;
-            margin-bottom: 6px;
         }
 
-        .record-memo {
-            font-size: 13px;
-            color: var(--text-main);
-            white-space: pre-wrap;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            background: #fafafa;
-            padding: 8px;
-            border-radius: 6px;
-            margin-top: 8px;
-        }
-
-        .delete-btn {
-            background: none;
-            border: none;
-            color: #ef5350;
-            font-size: 20px;
-            cursor: pointer;
+        /* 種類バッジ */
+        .type-badge {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 4px;
-            line-height: 1;
-            opacity: 0.6;
-            transition: opacity 0.2s;
+            top: 10px;
+            right: 10px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+            line-height: 1.4;
         }
 
-        .delete-btn:hover {
-            opacity: 1;
-        }
+        .type-badge-beer { background: #F9A825; }
+        .type-badge-wine { background: #C62828; }
+        .type-badge-sake { background: #1565C0; }
+        .type-badge-whiskey { background: #795548; }
+        .type-badge-chuhai { background: #2E7D32; }
+        .type-badge-shochu { background: #7B1FA2; }
+        .type-badge-other { background: #757575; }
 
         .empty-state {
             text-align: center;
@@ -336,21 +451,11 @@
             border-radius: 12px;
             border: 2px dashed var(--border-color);
         }
-        
+
         .empty-state span {
             font-size: 40px;
             display: block;
             margin-bottom: 12px;
-        }
-
-        /* 記録カードをタップ可能に */
-        .record-item {
-            cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.2s;
-        }
-
-        .record-item:active {
-            transform: scale(0.98);
         }
 
         /* モーダル */
@@ -579,6 +684,16 @@
             margin-bottom: 16px;
             text-align: center;
         }
+
+        /* 検索結果なし */
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            background: var(--card-bg);
+            border-radius: 12px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -694,6 +809,44 @@
         <span class="record-count" id="recordCount">0件</span>
     </div>
 
+    <!-- 検索バー -->
+    <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="名前・場所・メモで検索...">
+        <button class="search-clear-btn" id="searchClearBtn">×</button>
+    </div>
+
+    <!-- ソートボタン -->
+    <div class="sort-bar" id="sortBar">
+        <button class="sort-btn active" data-sort="date-desc">新しい順</button>
+        <button class="sort-btn" data-sort="date-asc">古い順</button>
+        <button class="sort-btn" data-sort="rating-desc">評価が高い順</button>
+        <button class="sort-btn" data-sort="rating-asc">評価が低い順</button>
+    </div>
+
+    <!-- フィルター -->
+    <div class="filter-section">
+        <div class="filter-label">種類で絞り込み</div>
+        <div class="filter-row" id="typeFilterRow">
+            <button class="filter-btn active" data-type="all">全て</button>
+            <button class="filter-btn" data-type="ビール">🍺 ビール</button>
+            <button class="filter-btn" data-type="ワイン">🍷 ワイン</button>
+            <button class="filter-btn" data-type="日本酒">🍶 日本酒</button>
+            <button class="filter-btn" data-type="ウイスキー">🥃 ウイスキー</button>
+            <button class="filter-btn" data-type="チューハイ">🍋 チューハイ</button>
+            <button class="filter-btn" data-type="焼酎">🍠 焼酎</button>
+            <button class="filter-btn" data-type="その他">🍸 その他</button>
+        </div>
+        <div class="filter-label">評価で絞り込み</div>
+        <div class="filter-row" id="ratingFilterRow">
+            <button class="filter-btn active" data-rating="0">全て</button>
+            <button class="filter-btn" data-rating="3">★3以上</button>
+            <button class="filter-btn" data-rating="4">★4以上</button>
+            <button class="filter-btn" data-rating="5">★5のみ</button>
+        </div>
+        <button class="filter-clear-btn" id="filterClearBtn">フィルター解除</button>
+    </div>
+
     <div class="record-list" id="recordList">
         <!-- 履歴がここに追加されます -->
     </div>
@@ -709,7 +862,7 @@
     const clearPhotoBtn = document.getElementById('clearPhotoBtn');
     const uploadBtn = document.getElementById('uploadBtn');
 
-    // 写真のプレビューとリサイズ処理（localStorageの容量対策）
+    // 写真のプレビューとリサイズ処理
     photoInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (!file) return;
@@ -718,7 +871,6 @@
         reader.onload = function(event) {
             const img = new Image();
             img.onload = function() {
-                // 画像をリサイズ
                 const canvas = document.createElement('canvas');
                 const MAX_WIDTH = 600;
                 const MAX_HEIGHT = 600;
@@ -742,9 +894,7 @@
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
 
-                // 軽量化のためにJPEG形式・品質0.7でBase64化
                 currentPhotoBase64 = canvas.toDataURL('image/jpeg', 0.7);
-
                 photoPreview.src = currentPhotoBase64;
                 photoPreview.style.display = 'block';
                 clearPhotoBtn.style.display = 'inline-block';
@@ -764,6 +914,12 @@
         uploadBtn.style.display = 'flex';
     });
 
+    // 編集モードの状態管理
+    let editingRecordId = null;
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const editModeBadge = document.getElementById('editModeBadge');
+
     // フォーム送信処理
     document.getElementById('recordForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -771,8 +927,10 @@
         const ratingInput = document.querySelector('input[name="rating"]:checked');
         let records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
 
+        // 古いデータにIDがない場合は自動で振る
+        records = ensureIds(records);
+
         if (editingRecordId !== null) {
-            // === 編集モード：既存レコードを更新 ===
             const index = records.findIndex(r => r.id === editingRecordId);
             if (index === -1) {
                 alert('更新対象の記録が見つかりません。');
@@ -806,7 +964,6 @@
                 }
             }
         } else {
-            // === 新規登録モード ===
             const record = {
                 id: Date.now(),
                 name: document.getElementById('name').value,
@@ -822,13 +979,10 @@
 
             try {
                 localStorage.setItem('sakeRecords', JSON.stringify(records));
-
-                // フォームリセット
                 this.reset();
                 document.getElementById('date').valueAsDate = new Date();
                 clearPhotoBtn.click();
                 document.getElementById('star3').checked = true;
-
                 renderRecords();
                 alert('記録を保存しました！');
                 window.scrollTo({ top: document.querySelector('.list-header').offsetTop - 20, behavior: 'smooth' });
@@ -843,11 +997,20 @@
         }
     });
 
-    // 編集モードの状態管理
-    let editingRecordId = null;
-    const submitBtn = document.getElementById('submitBtn');
-    const cancelEditBtn = document.getElementById('cancelEditBtn');
-    const editModeBadge = document.getElementById('editModeBadge');
+    // 古いデータにIDがない場合に自動で振る
+    function ensureIds(records) {
+        let changed = false;
+        records.forEach((r, i) => {
+            if (!r.id) {
+                r.id = Date.now() + i;
+                changed = true;
+            }
+        });
+        if (changed) {
+            localStorage.setItem('sakeRecords', JSON.stringify(records));
+        }
+        return records;
+    }
 
     // 削除処理
     function deleteRecord(id) {
@@ -881,6 +1044,132 @@
         'その他': '🍸'
     };
 
+    // 種類に対応するバッジCSSクラスマップ
+    const typeBadgeClassMap = {
+        'ビール': 'type-badge-beer',
+        'ワイン': 'type-badge-wine',
+        '日本酒': 'type-badge-sake',
+        'ウイスキー': 'type-badge-whiskey',
+        'チューハイ': 'type-badge-chuhai',
+        '焼酎': 'type-badge-shochu',
+        'その他': 'type-badge-other'
+    };
+
+    // ===== 検索・フィルター・ソートの状態 =====
+    let currentSort = 'date-desc';
+    let currentTypeFilter = 'all';
+    let currentRatingFilter = 0;
+    let currentSearchQuery = '';
+
+    // 検索バー
+    const searchInput = document.getElementById('searchInput');
+    const searchClearBtn = document.getElementById('searchClearBtn');
+
+    searchInput.addEventListener('input', function() {
+        currentSearchQuery = this.value.trim();
+        searchClearBtn.style.display = currentSearchQuery ? 'flex' : 'none';
+        renderRecords();
+    });
+
+    searchClearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        currentSearchQuery = '';
+        searchClearBtn.style.display = 'none';
+        renderRecords();
+    });
+
+    // ソートボタン
+    document.getElementById('sortBar').addEventListener('click', function(e) {
+        const btn = e.target.closest('.sort-btn');
+        if (!btn) return;
+        currentSort = btn.dataset.sort;
+        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderRecords();
+    });
+
+    // 種類フィルター
+    document.getElementById('typeFilterRow').addEventListener('click', function(e) {
+        const btn = e.target.closest('.filter-btn');
+        if (!btn) return;
+        currentTypeFilter = btn.dataset.type;
+        document.querySelectorAll('#typeFilterRow .filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateFilterClearBtn();
+        renderRecords();
+    });
+
+    // 評価フィルター
+    document.getElementById('ratingFilterRow').addEventListener('click', function(e) {
+        const btn = e.target.closest('.filter-btn');
+        if (!btn) return;
+        currentRatingFilter = parseInt(btn.dataset.rating);
+        document.querySelectorAll('#ratingFilterRow .filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateFilterClearBtn();
+        renderRecords();
+    });
+
+    // フィルター解除ボタン
+    const filterClearBtn = document.getElementById('filterClearBtn');
+    filterClearBtn.addEventListener('click', function() {
+        currentTypeFilter = 'all';
+        currentRatingFilter = 0;
+        document.querySelectorAll('#typeFilterRow .filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('#typeFilterRow .filter-btn[data-type="all"]').classList.add('active');
+        document.querySelectorAll('#ratingFilterRow .filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('#ratingFilterRow .filter-btn[data-rating="0"]').classList.add('active');
+        updateFilterClearBtn();
+        renderRecords();
+    });
+
+    function updateFilterClearBtn() {
+        const isFiltering = currentTypeFilter !== 'all' || currentRatingFilter > 0;
+        filterClearBtn.style.display = isFiltering ? 'inline-block' : 'none';
+    }
+
+    // データのフィルタリング・ソート処理
+    function getFilteredRecords(records) {
+        let filtered = records.slice();
+
+        // テキスト検索
+        if (currentSearchQuery) {
+            const q = currentSearchQuery.toLowerCase();
+            filtered = filtered.filter(r =>
+                (r.name && r.name.toLowerCase().includes(q)) ||
+                (r.location && r.location.toLowerCase().includes(q)) ||
+                (r.memo && r.memo.toLowerCase().includes(q))
+            );
+        }
+
+        // 種類フィルター
+        if (currentTypeFilter !== 'all') {
+            filtered = filtered.filter(r => r.type === currentTypeFilter);
+        }
+
+        // 評価フィルター
+        if (currentRatingFilter > 0) {
+            filtered = filtered.filter(r => parseInt(r.rating) >= currentRatingFilter);
+        }
+
+        // ソート
+        filtered.sort((a, b) => {
+            switch (currentSort) {
+                case 'date-asc':
+                    return (a.date || '').localeCompare(b.date || '');
+                case 'rating-desc':
+                    return parseInt(b.rating) - parseInt(a.rating);
+                case 'rating-asc':
+                    return parseInt(a.rating) - parseInt(b.rating);
+                case 'date-desc':
+                default:
+                    return (b.date || '').localeCompare(a.date || '');
+            }
+        });
+
+        return filtered;
+    }
+
     // ===== 詳細モーダル =====
     const detailModal = document.getElementById('detailModal');
     const modalCloseBtn = document.getElementById('modalCloseBtn');
@@ -893,15 +1182,14 @@
 
         currentModalRecordId = recordId;
 
-        // 写真エリア
         const photoArea = document.getElementById('modalPhotoArea');
         if (record.photo) {
             photoArea.innerHTML = `<img src="${record.photo}" class="modal-photo" alt="写真">`;
         } else {
-            photoArea.innerHTML = `<div class="modal-no-photo">🍶</div>`;
+            const emoji = typeEmojiMap[record.type] || '🍶';
+            photoArea.innerHTML = `<div class="modal-no-photo">${emoji}</div>`;
         }
 
-        // 各情報をセット
         document.getElementById('modalTitle').textContent = record.name;
         const emoji = typeEmojiMap[record.type] || '';
         document.getElementById('modalType').textContent = `${emoji} ${record.type}`;
@@ -925,7 +1213,6 @@
             memoEl.style.display = 'none';
         }
 
-        // モーダルを表示
         detailModal.classList.remove('fade-out');
         detailModal.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -942,7 +1229,6 @@
 
     modalCloseBtn.addEventListener('click', closeDetailModal);
 
-    // 背景タップで閉じる
     detailModal.addEventListener('click', function(e) {
         if (e.target === detailModal) {
             closeDetailModal();
@@ -968,24 +1254,19 @@
         const record = records.find(r => r.id === currentModalRecordId);
         if (!record) return;
 
-        // モーダルを閉じる
         closeDetailModal();
 
-        // 編集モードに入る
         editingRecordId = record.id;
 
-        // フォームに既存データをセット
         document.getElementById('name').value = record.name;
         document.getElementById('type').value = record.type;
         document.getElementById('date').value = record.date;
         document.getElementById('location').value = record.location || '';
         document.getElementById('memo').value = record.memo || '';
 
-        // 評価をセット
         const ratingRadio = document.querySelector(`input[name="rating"][value="${record.rating}"]`);
         if (ratingRadio) ratingRadio.checked = true;
 
-        // 写真をセット
         if (record.photo) {
             currentPhotoBase64 = record.photo;
             photoPreview.src = record.photo;
@@ -999,12 +1280,10 @@
             uploadBtn.style.display = 'flex';
         }
 
-        // UIを編集モードに変更
         submitBtn.textContent = '更新する';
         cancelEditBtn.style.display = 'block';
         editModeBadge.style.display = 'block';
 
-        // フォームまでスクロール
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
@@ -1019,7 +1298,6 @@
         cancelEditBtn.style.display = 'none';
         editModeBadge.style.display = 'none';
 
-        // フォームリセット
         document.getElementById('recordForm').reset();
         document.getElementById('date').valueAsDate = new Date();
         document.getElementById('star3').checked = true;
@@ -1034,11 +1312,24 @@
     function renderRecords() {
         const list = document.getElementById('recordList');
         const countDisplay = document.getElementById('recordCount');
-        const records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
+        let records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
 
-        countDisplay.textContent = `${records.length}件`;
+        // 古いデータにIDを自動付与
+        records = ensureIds(records);
 
-        if (records.length === 0) {
+        const totalCount = records.length;
+        const filtered = getFilteredRecords(records);
+        const filteredCount = filtered.length;
+
+        // 件数表示
+        const isFiltering = currentSearchQuery || currentTypeFilter !== 'all' || currentRatingFilter > 0;
+        if (isFiltering) {
+            countDisplay.textContent = `${totalCount}件中${filteredCount}件表示`;
+        } else {
+            countDisplay.textContent = `${totalCount}件`;
+        }
+
+        if (totalCount === 0) {
             list.innerHTML = `
                 <div class="empty-state">
                     <span>🍶</span>
@@ -1048,25 +1339,38 @@
             return;
         }
 
-        list.innerHTML = records.map(record => `
+        if (filteredCount === 0) {
+            list.innerHTML = `
+                <div class="no-results">
+                    <span style="font-size:32px;display:block;margin-bottom:8px;">🔍</span>
+                    該当する記録がありません
+                </div>
+            `;
+            return;
+        }
+
+        list.innerHTML = filtered.map(record => {
+            const emoji = typeEmojiMap[record.type] || '🍸';
+            const badgeClass = typeBadgeClassMap[record.type] || 'type-badge-other';
+
+            return `
             <div class="record-item" onclick="openDetailModal(${record.id})">
                 <div class="record-thumb-container">
                     ${record.photo
                         ? `<img src="${record.photo}" class="record-thumb" alt="画像">`
-                        : 'No Image'}
+                        : `<span class="record-thumb-emoji">${emoji}</span>`}
                 </div>
                 <div class="record-detail">
                     <h3 class="record-title">${escapeHtml(record.name)}</h3>
                     <div class="record-meta">
-                        <span class="tag">${escapeHtml(record.type)}</span>
+                        <span>${emoji} ${escapeHtml(record.type)}</span>
                         <span>${formatDate(record.date)}</span>
-                        ${record.location ? `<span>📍 ${escapeHtml(record.location)}</span>` : ''}
                     </div>
                     <div class="star-display">${getStars(parseInt(record.rating))}</div>
-                    ${record.memo ? `<div class="record-memo">${escapeHtml(record.memo)}</div>` : ''}
                 </div>
-            </div>
-        `).join('');
+                <span class="type-badge ${badgeClass}">${escapeHtml(record.type)}</span>
+            </div>`;
+        }).join('');
     }
 
     // XSS対策のエスケープ関数
