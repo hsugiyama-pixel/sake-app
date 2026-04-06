@@ -342,6 +342,243 @@
             display: block;
             margin-bottom: 12px;
         }
+
+        /* 記録カードをタップ可能に */
+        .record-item {
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+
+        .record-item:active {
+            transform: scale(0.98);
+        }
+
+        /* モーダル */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: flex-end;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-overlay.fade-out {
+            opacity: 0;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            border-radius: 20px 20px 0 0;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-overlay.fade-out .modal-content {
+            transform: translateY(100%);
+        }
+
+        .modal-handle {
+            width: 40px;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin: 12px auto 0;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.08);
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: background 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            position: relative;
+            padding: 20px 20px 0;
+        }
+
+        .modal-photo {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #000;
+            margin-bottom: 16px;
+        }
+
+        .modal-no-photo {
+            width: 100%;
+            height: 120px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bbb;
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .modal-body {
+            padding: 0 20px 24px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .modal-info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 15px;
+        }
+
+        .modal-info-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .modal-info-label {
+            color: var(--text-muted);
+            min-width: 70px;
+            font-size: 13px;
+        }
+
+        .modal-info-value {
+            color: var(--text-main);
+            flex: 1;
+        }
+
+        .modal-stars {
+            color: var(--primary);
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        .modal-memo {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 16px;
+            font-size: 14px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            color: var(--text-main);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .modal-edit-btn {
+            flex: 1;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .modal-edit-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .modal-delete-btn {
+            padding: 14px 20px;
+            background: #fff;
+            color: #ef5350;
+            border: 1px solid #ef5350;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .modal-delete-btn:hover {
+            background: #fbe9e7;
+        }
+
+        /* 編集モードのキャンセルボタン */
+        .cancel-edit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #fff;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            display: none;
+            transition: background 0.2s;
+        }
+
+        .cancel-edit-btn:hover {
+            background: #f5f5f5;
+        }
+
+        /* 編集モード時のフォームタイトル */
+        .edit-mode-badge {
+            display: none;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -352,6 +589,7 @@
     </header>
 
     <div class="card">
+        <div class="edit-mode-badge" id="editModeBadge">📝 編集モード</div>
         <form id="recordForm">
             <div class="form-group">
                 <label for="name">お酒の名前 <span style="color:#ef5350">*</span></label>
@@ -411,8 +649,44 @@
                 <button type="button" id="clearPhotoBtn" class="clear-photo-btn">写真を削除</button>
             </div>
 
-            <button type="submit" class="submit-btn">記録を保存する</button>
+            <button type="submit" class="submit-btn" id="submitBtn">記録を保存する</button>
+            <button type="button" class="cancel-edit-btn" id="cancelEditBtn">キャンセル</button>
         </form>
+    </div>
+
+    <!-- 詳細モーダル -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-handle"></div>
+            <div class="modal-header">
+                <button class="modal-close-btn" id="modalCloseBtn">×</button>
+                <div id="modalPhotoArea"></div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-title" id="modalTitle"></div>
+                <div class="modal-info-row">
+                    <span class="modal-info-label">種類</span>
+                    <span class="modal-info-value" id="modalType"></span>
+                </div>
+                <div class="modal-info-row">
+                    <span class="modal-info-label">日付</span>
+                    <span class="modal-info-value" id="modalDate"></span>
+                </div>
+                <div class="modal-info-row" id="modalLocationRow">
+                    <span class="modal-info-label">場所</span>
+                    <span class="modal-info-value" id="modalLocation"></span>
+                </div>
+                <div class="modal-info-row">
+                    <span class="modal-info-label">評価</span>
+                    <span class="modal-info-value modal-stars" id="modalRating"></span>
+                </div>
+                <div class="modal-memo" id="modalMemo" style="display:none;"></div>
+                <div class="modal-actions">
+                    <button class="modal-edit-btn" id="modalEditBtn">✏️ 編集する</button>
+                    <button class="modal-delete-btn" id="modalDeleteBtn">🗑 削除</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="list-header">
@@ -495,45 +769,85 @@
         e.preventDefault();
 
         const ratingInput = document.querySelector('input[name="rating"]:checked');
-        
-        const record = {
-            id: Date.now(),
-            name: document.getElementById('name').value,
-            type: document.getElementById('type').value,
-            date: document.getElementById('date').value,
-            location: document.getElementById('location').value,
-            rating: ratingInput ? ratingInput.value : '3',
-            memo: document.getElementById('memo').value,
-            photo: currentPhotoBase64
-        };
-
-        // 既存のデータを取得して新しいデータを先頭に追加
         let records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
-        records.unshift(record);
 
-        try {
-            localStorage.setItem('sakeRecords', JSON.stringify(records));
-            
-            // フォームリセット
-            this.reset();
-            document.getElementById('date').valueAsDate = new Date();
-            clearPhotoBtn.click(); // 写真プレビューもリセット
-            // 星3つをデフォルトに戻す
-            document.getElementById('star3').checked = true;
-            
-            renderRecords();
-            alert('記録を保存しました！');
-            // スクロールして一覧を見せる
-            window.scrollTo({ top: document.querySelector('.list-header').offsetTop - 20, behavior: 'smooth' });
-        } catch (error) {
-            console.error("Storage error:", error);
-            if (error.name === 'QuotaExceededError') {
-                alert('ブラウザの保存容量の制限に達しました。\n一覧から不要な記録（写真付きのものなど）を削除してください。');
-            } else {
-                alert('保存に失敗しました。');
+        if (editingRecordId !== null) {
+            // === 編集モード：既存レコードを更新 ===
+            const index = records.findIndex(r => r.id === editingRecordId);
+            if (index === -1) {
+                alert('更新対象の記録が見つかりません。');
+                exitEditMode();
+                return;
+            }
+
+            records[index] = {
+                id: editingRecordId,
+                name: document.getElementById('name').value,
+                type: document.getElementById('type').value,
+                date: document.getElementById('date').value,
+                location: document.getElementById('location').value,
+                rating: ratingInput ? ratingInput.value : '3',
+                memo: document.getElementById('memo').value,
+                photo: currentPhotoBase64
+            };
+
+            try {
+                localStorage.setItem('sakeRecords', JSON.stringify(records));
+                exitEditMode();
+                renderRecords();
+                alert('記録を更新しました！');
+                window.scrollTo({ top: document.querySelector('.list-header').offsetTop - 20, behavior: 'smooth' });
+            } catch (error) {
+                console.error("Storage error:", error);
+                if (error.name === 'QuotaExceededError') {
+                    alert('ブラウザの保存容量の制限に達しました。\n一覧から不要な記録（写真付きのものなど）を削除してください。');
+                } else {
+                    alert('更新に失敗しました。');
+                }
+            }
+        } else {
+            // === 新規登録モード ===
+            const record = {
+                id: Date.now(),
+                name: document.getElementById('name').value,
+                type: document.getElementById('type').value,
+                date: document.getElementById('date').value,
+                location: document.getElementById('location').value,
+                rating: ratingInput ? ratingInput.value : '3',
+                memo: document.getElementById('memo').value,
+                photo: currentPhotoBase64
+            };
+
+            records.unshift(record);
+
+            try {
+                localStorage.setItem('sakeRecords', JSON.stringify(records));
+
+                // フォームリセット
+                this.reset();
+                document.getElementById('date').valueAsDate = new Date();
+                clearPhotoBtn.click();
+                document.getElementById('star3').checked = true;
+
+                renderRecords();
+                alert('記録を保存しました！');
+                window.scrollTo({ top: document.querySelector('.list-header').offsetTop - 20, behavior: 'smooth' });
+            } catch (error) {
+                console.error("Storage error:", error);
+                if (error.name === 'QuotaExceededError') {
+                    alert('ブラウザの保存容量の制限に達しました。\n一覧から不要な記録（写真付きのものなど）を削除してください。');
+                } else {
+                    alert('保存に失敗しました。');
+                }
             }
         }
     });
+
+    // 編集モードの状態管理
+    let editingRecordId = null;
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const editModeBadge = document.getElementById('editModeBadge');
 
     // 削除処理
     function deleteRecord(id) {
@@ -556,12 +870,172 @@
         return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
     }
 
+    // 種類に対応する絵文字マップ
+    const typeEmojiMap = {
+        'ビール': '🍺',
+        'ワイン': '🍷',
+        '日本酒': '🍶',
+        'ウイスキー': '🥃',
+        'チューハイ': '🍋',
+        '焼酎': '🍠',
+        'その他': '🍸'
+    };
+
+    // ===== 詳細モーダル =====
+    const detailModal = document.getElementById('detailModal');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    let currentModalRecordId = null;
+
+    function openDetailModal(recordId) {
+        const records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
+        const record = records.find(r => r.id === recordId);
+        if (!record) return;
+
+        currentModalRecordId = recordId;
+
+        // 写真エリア
+        const photoArea = document.getElementById('modalPhotoArea');
+        if (record.photo) {
+            photoArea.innerHTML = `<img src="${record.photo}" class="modal-photo" alt="写真">`;
+        } else {
+            photoArea.innerHTML = `<div class="modal-no-photo">🍶</div>`;
+        }
+
+        // 各情報をセット
+        document.getElementById('modalTitle').textContent = record.name;
+        const emoji = typeEmojiMap[record.type] || '';
+        document.getElementById('modalType').textContent = `${emoji} ${record.type}`;
+        document.getElementById('modalDate').textContent = formatDate(record.date);
+
+        const locationRow = document.getElementById('modalLocationRow');
+        if (record.location) {
+            document.getElementById('modalLocation').textContent = `📍 ${record.location}`;
+            locationRow.style.display = 'flex';
+        } else {
+            locationRow.style.display = 'none';
+        }
+
+        document.getElementById('modalRating').textContent = getStars(parseInt(record.rating));
+
+        const memoEl = document.getElementById('modalMemo');
+        if (record.memo) {
+            memoEl.textContent = record.memo;
+            memoEl.style.display = 'block';
+        } else {
+            memoEl.style.display = 'none';
+        }
+
+        // モーダルを表示
+        detailModal.classList.remove('fade-out');
+        detailModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetailModal() {
+        detailModal.classList.add('fade-out');
+        setTimeout(() => {
+            detailModal.classList.remove('active', 'fade-out');
+            document.body.style.overflow = '';
+            currentModalRecordId = null;
+        }, 300);
+    }
+
+    modalCloseBtn.addEventListener('click', closeDetailModal);
+
+    // 背景タップで閉じる
+    detailModal.addEventListener('click', function(e) {
+        if (e.target === detailModal) {
+            closeDetailModal();
+        }
+    });
+
+    // モーダル内の削除ボタン
+    document.getElementById('modalDeleteBtn').addEventListener('click', function() {
+        if (currentModalRecordId !== null) {
+            if (confirm('この記録を削除しますか？\n（復元できません）')) {
+                let records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
+                records = records.filter(r => r.id !== currentModalRecordId);
+                localStorage.setItem('sakeRecords', JSON.stringify(records));
+                closeDetailModal();
+                renderRecords();
+            }
+        }
+    });
+
+    // ===== 編集機能 =====
+    document.getElementById('modalEditBtn').addEventListener('click', function() {
+        const records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
+        const record = records.find(r => r.id === currentModalRecordId);
+        if (!record) return;
+
+        // モーダルを閉じる
+        closeDetailModal();
+
+        // 編集モードに入る
+        editingRecordId = record.id;
+
+        // フォームに既存データをセット
+        document.getElementById('name').value = record.name;
+        document.getElementById('type').value = record.type;
+        document.getElementById('date').value = record.date;
+        document.getElementById('location').value = record.location || '';
+        document.getElementById('memo').value = record.memo || '';
+
+        // 評価をセット
+        const ratingRadio = document.querySelector(`input[name="rating"][value="${record.rating}"]`);
+        if (ratingRadio) ratingRadio.checked = true;
+
+        // 写真をセット
+        if (record.photo) {
+            currentPhotoBase64 = record.photo;
+            photoPreview.src = record.photo;
+            photoPreview.style.display = 'block';
+            clearPhotoBtn.style.display = 'inline-block';
+            uploadBtn.style.display = 'none';
+        } else {
+            currentPhotoBase64 = '';
+            photoPreview.style.display = 'none';
+            clearPhotoBtn.style.display = 'none';
+            uploadBtn.style.display = 'flex';
+        }
+
+        // UIを編集モードに変更
+        submitBtn.textContent = '更新する';
+        cancelEditBtn.style.display = 'block';
+        editModeBadge.style.display = 'block';
+
+        // フォームまでスクロール
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 編集キャンセル
+    cancelEditBtn.addEventListener('click', function() {
+        exitEditMode();
+    });
+
+    function exitEditMode() {
+        editingRecordId = null;
+        submitBtn.textContent = '記録を保存する';
+        cancelEditBtn.style.display = 'none';
+        editModeBadge.style.display = 'none';
+
+        // フォームリセット
+        document.getElementById('recordForm').reset();
+        document.getElementById('date').valueAsDate = new Date();
+        document.getElementById('star3').checked = true;
+        currentPhotoBase64 = '';
+        photoPreview.style.display = 'none';
+        clearPhotoBtn.style.display = 'none';
+        uploadBtn.style.display = 'flex';
+        photoInput.value = '';
+    }
+
     // 記録の描画処理
     function renderRecords() {
         const list = document.getElementById('recordList');
         const countDisplay = document.getElementById('recordCount');
         const records = JSON.parse(localStorage.getItem('sakeRecords')) || [];
-        
+
         countDisplay.textContent = `${records.length}件`;
 
         if (records.length === 0) {
@@ -575,25 +1049,32 @@
         }
 
         list.innerHTML = records.map(record => `
-            <div class="record-item">
+            <div class="record-item" onclick="openDetailModal(${record.id})">
                 <div class="record-thumb-container">
-                    ${record.photo 
-                        ? `<img src="${record.photo}" class="record-thumb" alt="画像">` 
+                    ${record.photo
+                        ? `<img src="${record.photo}" class="record-thumb" alt="画像">`
                         : 'No Image'}
                 </div>
                 <div class="record-detail">
-                    <h3 class="record-title">${record.name}</h3>
+                    <h3 class="record-title">${escapeHtml(record.name)}</h3>
                     <div class="record-meta">
-                        <span class="tag">${record.type}</span>
+                        <span class="tag">${escapeHtml(record.type)}</span>
                         <span>${formatDate(record.date)}</span>
-                        ${record.location ? `<span>📍 ${record.location}</span>` : ''}
+                        ${record.location ? `<span>📍 ${escapeHtml(record.location)}</span>` : ''}
                     </div>
                     <div class="star-display">${getStars(parseInt(record.rating))}</div>
-                    ${record.memo ? `<div class="record-memo">${record.memo}</div>` : ''}
+                    ${record.memo ? `<div class="record-memo">${escapeHtml(record.memo)}</div>` : ''}
                 </div>
-                <button class="delete-btn" onclick="deleteRecord(${record.id})" title="削除">×</button>
             </div>
         `).join('');
+    }
+
+    // XSS対策のエスケープ関数
+    function escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
     }
 
     // 初回読み込み時のUI描画
